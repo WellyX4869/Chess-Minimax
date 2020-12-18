@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using System.Collections.Generic;
 
 // New
 public enum CellState
@@ -18,7 +18,7 @@ public class Board : MonoBehaviour
 
     [HideInInspector]
     public Cell[,] mAllCells = new Cell[8, 8];
-    public Cell[,] mComCells = new Cell[8, 8];
+    public List<Cell> lastMove = new List<Cell>();
 
     // We create the board here, no surprise
     public void Create()
@@ -38,8 +38,6 @@ public class Board : MonoBehaviour
                 // Setup
                 mAllCells[x, y] = newCell.GetComponent<Cell>();
                 mAllCells[x, y].Setup(new Vector2Int(x, y), this);
-                mComCells[x, y] = newCell.GetComponent<Cell>();
-                mComCells[x, y].Setup(new Vector2Int(x, y), this);
             }
         }
         #endregion
@@ -60,7 +58,6 @@ public class Board : MonoBehaviour
                 byte Alpha = 255;
                 // Color
                 mAllCells[finalX, y].GetComponent<Image>().color = new Color32(Red, Green, Blue, Alpha); //board pieces white
-                mComCells[finalX, y].GetComponent<Image>().color = new Color32(Red, Green, Blue, Alpha); //board pieces white
             }
         }
         #endregion

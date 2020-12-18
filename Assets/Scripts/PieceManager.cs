@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PieceManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class PieceManager : MonoBehaviour
     public GameObject mPiecePrefab;
 
     [Header("DIFFICULTY")]
-    public int difficulty = 0;
+    private int difficulty = GameSettings.difficulty;
     Heuristic weight = new Heuristic();
 
     private List<BasePiece> mWhitePieces = null;
@@ -34,6 +35,18 @@ public class PieceManager : MonoBehaviour
         {"K",  typeof(King)},
         {"Q",  typeof(Queen)}
     };
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            SceneManager.LoadScene(0);
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(1);
+        } 
+    }
 
     public void Setup(Board board)
     {
@@ -109,10 +122,51 @@ public class PieceManager : MonoBehaviour
             piece.enabled = value;
     }
 
+    //EVALUATE CHESS BOARD
+    private int evaluate(Board board)
+    {
+        float pieceDifference = 0;
+        float whiteWeight = 0;
+        float blackWeight = 0;
+        int blackScore = 0;
+        int whiteScore = 0;
+
+        for (int y = 0; y < 8; y++)
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                Cell cell = board.mAllCells[x, y];
+                if (cell.mCurrentPiece == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    BasePiece piece = cell.mCurrentPiece;
+                    if (piece.mColor == Color.white)
+                    {
+                        whiteScore += piece.mValue;
+                        whiteWeight += weight.GetBoardWeight(piece.role, piece.mCurrentCell.mBoardPosition, piece.mColor);
+                    }
+                    else
+                    {
+                        blackScore += piece.mValue;
+                        blackWeight += weight.GetBoardWeight(piece.role, piece.mCurrentCell.mBoardPosition, piece.mColor); ;
+                    }
+                }
+            }
+        }
+       
+        pieceDifference = (blackScore + (blackWeight / 100)) - (whiteScore + (whiteWeight / 100));
+        return Mathf.RoundToInt(pieceDifference * 100);
+    }
+
     ////BEST MOVE
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// <summary>
     public IEnumerator bestMove()
     {
         yield return null;
+        Debug.Log("Difficulty = " + difficulty);
         int bestScore = int.MinValue;
         Cell AICell = null;
         Cell bestCell = null;
@@ -171,80 +225,11 @@ public class PieceManager : MonoBehaviour
         AICell.mCurrentPiece.Moving(bestCell);
     }
 
-  
-    //EVALUATE CHESS BOARD
-    private int evaluate(Board board)
-    {
-        int total = 0;
-        for(int y = 0; y<8; y++)
-        {
-            for(int x = 0; x<8; x++)
-            {
-                BasePiece piece = board.mAllCells[x, y].mCurrentPiece;
-                if(piece != null)
-                {   
-                    if (piece.mColor == Color.white)
-                        total -= piece.mValue;
-                    else if(piece.mColor == Color.black)
-                        total += piece.mValue;
-                }
-            }
-        }
-
-        return total;
-    }
-
-    private int evaluate2(Board board)
-    {
-        float pieceDifference = 0;
-        float whiteWeight = 0;
-        float blackWeight = 0;
-        int blackScore = 0;
-        int whiteScore = 0;
-
-        for (int y = 0; y < 8; y++)
-        {
-            for (int x = 0; x < 8; x++)
-            {
-                Cell cell = board.mAllCells[x, y];
-                if (cell.mCurrentPiece == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    BasePiece piece = cell.mCurrentPiece;
-                    if (piece.mColor == Color.white)
-                    {
-                        whiteScore += piece.mValue;
-                        whiteWeight += weight.GetBoardWeight(piece.role, piece.mCurrentCell.mBoardPosition, piece.mColor);
-                    }
-                    else
-                    {
-                        blackScore += piece.mValue;
-                        blackWeight += weight.GetBoardWeight(piece.role, piece.mCurrentCell.mBoardPosition, piece.mColor); ;
-                    }
-                }
-            }
-        }
-       
-        pieceDifference = (blackScore + (blackWeight / 100)) - (whiteScore + (whiteWeight / 100));
-        return Mathf.RoundToInt(pieceDifference * 100);
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// <summary>
     private int minimax(Board board, int depth, bool isMaximizing, int alpha, int beta)
     {
         if (depth <= 0)
         {
-            //if (difficulty > 1)
-            //{
-            //    res = evaluate2(board);
-            //}
-            //else evaluate(board);
-            int res = evaluate2(board);
-            //if(res != 0)
-            //Debug.Log(res + "\n" + board.display());
+            int res = evaluate(board);
             return res;
         }
 
@@ -323,7 +308,6 @@ public class PieceManager : MonoBehaviour
                                     targetCells.Add(board.mAllCells[x1, y1]);
                                 }
 
-                                //if (depth == 3 && piece3.role == "Q") Debug.Log(target);
                                 for (int i = 0; i < targetCells.Count; i++)
                                 {
                                     Vector2Int pos3 = new Vector2Int(targetCells[i].mBoardPosition.x, targetCells[i].mBoardPosition.y);
@@ -338,7 +322,7 @@ public class PieceManager : MonoBehaviour
                                    
                                     bestScore = Math.Min(score, bestScore);
                                     beta = Math.Min(alpha, bestScore);
-                                    if (beta <= alpha && piece3.role == "P")
+                                    if (beta <= alpha && (piece3.role == "P" || difficulty < 3))
                                     {
                                         break;
                                     }
@@ -407,10 +391,29 @@ public class PieceManager : MonoBehaviour
             piece.enabled = isPartOfTeam;
         }
 
+        ShowLastMove();
+
         // ADDED: Move random piece
         if (isBlackTurn)
+        {
             StartCoroutine(bestMove());
+        }
+    }
 
+    public void ShowLastMove()
+    {
+        foreach(Cell cell in mBoard.lastMove)
+        {
+            cell.mLastOutlineImage.enabled = true;
+        }
+    }
+
+    public void ClearLastMove()
+    {
+        foreach (Cell cell in mBoard.lastMove)
+        {
+            cell.mLastOutlineImage.enabled = false;
+        }
     }
 
     public void ResetPieces()
@@ -428,7 +431,7 @@ public class PieceManager : MonoBehaviour
 
         //foreach (BasePiece piece in mBlackPieces)
         //    piece.Reset();
-        Application.LoadLevel(0);
+        SceneManager.LoadScene(1);
     }
 
     public void PromotePiece(Pawn pawn, Cell cell, Color teamColor, Color spriteColor)

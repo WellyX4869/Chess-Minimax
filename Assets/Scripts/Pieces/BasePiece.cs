@@ -176,6 +176,12 @@ public abstract class BasePiece : EventTrigger
         // If there is an enemy piece, remove it
         mTargetCell.RemovePiece();
 
+        // SAVE LAST MOVE
+        mPieceManager.ClearLastMove();
+        mCurrentCell.mBoard.lastMove.Clear();
+        mCurrentCell.mBoard.lastMove.Add(mCurrentCell.mBoard.mAllCells[mCurrentCell.mBoardPosition.x, mCurrentCell.mBoardPosition.y]);
+        mCurrentCell.mBoard.lastMove.Add(mCurrentCell.mBoard.mAllCells[mTargetCell.mBoardPosition.x, mTargetCell.mBoardPosition.y]);
+        
         // Clear current
         mCurrentCell.mCurrentPiece = null;
 
@@ -190,6 +196,8 @@ public abstract class BasePiece : EventTrigger
     #endregion
 
     #region Events
+
+
     public override void OnBeginDrag(PointerEventData eventData)
     {
         base.OnBeginDrag(eventData);
