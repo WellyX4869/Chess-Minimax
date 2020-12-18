@@ -53,9 +53,14 @@ public class Board : MonoBehaviour
                 int offset = (y % 2 != 0) ? 0 : 1;
                 int finalX = x + offset;
 
+                //0-255 color dalam bentuk RGB dan alpha
+                byte Red = 185; 
+                byte Green = 185;
+                byte Blue = 185;
+                byte Alpha = 255;
                 // Color
-                mAllCells[finalX, y].GetComponent<Image>().color = new Color32(230, 220, 187, 255);
-                mComCells[finalX, y].GetComponent<Image>().color = new Color32(230, 220, 187, 255);
+                mAllCells[finalX, y].GetComponent<Image>().color = new Color32(Red, Green, Blue, Alpha); //board pieces white
+                mComCells[finalX, y].GetComponent<Image>().color = new Color32(Red, Green, Blue, Alpha); //board pieces white
             }
         }
         #endregion
