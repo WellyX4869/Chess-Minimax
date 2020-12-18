@@ -11,6 +11,10 @@ public class PieceManager : MonoBehaviour
     public Board mBoard = null;
     public GameObject mPiecePrefab;
 
+    [Header("DIFFICULTY")]
+    public int difficulty = 0;
+    Heuristic weight = new Heuristic();
+
     private List<BasePiece> mWhitePieces = null;
     private List<BasePiece> mBlackPieces = null;
     private List<BasePiece> mPromotedPieces = new List<BasePiece>();
@@ -107,9 +111,8 @@ public class PieceManager : MonoBehaviour
     public IEnumerator bestMove()
     {
         yield return null;
-        int difficulty = 2;
         int bestScore = int.MinValue;
-        BasePiece bestPiece = null;
+        Cell AICell = null;
         Cell bestCell = null;
         Board board = mBoard;
 
@@ -128,7 +131,6 @@ public class PieceManager : MonoBehaviour
                             Vector2Int startPos = new Vector2Int(piece.mCurrentCell.mBoardPosition.x, piece.mCurrentCell.mBoardPosition.y);
                             List<Cell> targetCells = new List<Cell>();
                             
-                            string target = "";
                             for (int i = 0; i < piece.mHighlightedCells.Count; i++)
                             {
                                 int x1 = piece.mHighlightedCells[i].mBoardPosition.x; int y1 = piece.mHighlightedCells[i].mBoardPosition.y;
@@ -145,16 +147,15 @@ public class PieceManager : MonoBehaviour
                                 
                                 //Debug.Log(startPos + ";" + pos);
                                 board.DoFakeMove(startPos, pos, piece);
-                                Debug.Log(board.display());
+                                //Debug.Log(board.display());
 
-                                int score = minimax(board, difficulty, false, int.MinValue, int.MaxValue);
+                                int score = minimax(board, 3, false, int.MinValue, int.MaxValue);
                                 board.UndoFakeMove(startPos, pos, piece, killedPiece);
 
                                 if (score > bestScore)
                                 {
-                                    //Debug.Log(score+"\n"+ board.display());
                                     bestScore = score;
-                                    bestPiece = piece;
+                                    AICell = startCell;
                                     bestCell = tempCell;
                                 }
                             }
@@ -164,9 +165,11 @@ public class PieceManager : MonoBehaviour
                 }
             }
         }
-        bestPiece.Moving(bestCell);
+        Debug.Log("BEST SCORE is " + bestScore + " and target cell is " + bestCell.mBoardPosition);
+        AICell.mCurrentPiece.Moving(bestCell);
     }
 
+  
     //EVALUATE CHESS BOARD
     private int evaluate(Board board)
     {
@@ -175,17 +178,13 @@ public class PieceManager : MonoBehaviour
         {
             for(int x = 0; x<8; x++)
             {
-                Cell cell = board.mAllCells[x, y];
-                if(cell.mCurrentPiece == null)
-                {
-                    continue;
-                }
-                else
-                {
-                    BasePiece piece = cell.mCurrentPiece;
+                BasePiece piece = board.mAllCells[x, y].mCurrentPiece;
+                if(piece != null)
+                {   
                     if (piece.mColor == Color.white)
                         total -= piece.mValue;
-                    else total += piece.mValue;
+                    else if(piece.mColor == Color.black)
+                        total += piece.mValue;
                 }
             }
         }
@@ -193,14 +192,57 @@ public class PieceManager : MonoBehaviour
         return total;
     }
 
+    private int evaluate2(Board board)
+    {
+        float pieceDifference = 0;
+        float whiteWeight = 0;
+        float blackWeight = 0;
+        int blackScore = 0;
+        int whiteScore = 0;
+
+        for (int y = 0; y < 8; y++)
+        {
+            for (int x = 0; x < 8; x++)
+            {
+                Cell cell = board.mAllCells[x, y];
+                if (cell.mCurrentPiece == null)
+                {
+                    continue;
+                }
+                else
+                {
+                    BasePiece piece = cell.mCurrentPiece;
+                    if (piece.mColor == Color.white)
+                    {
+                        whiteScore += piece.mValue;
+                        whiteWeight += weight.GetBoardWeight(piece.role, piece.mCurrentCell.mBoardPosition, piece.mColor);
+                    }
+                    else
+                    {
+                        blackScore += piece.mValue;
+                        blackWeight += weight.GetBoardWeight(piece.role, piece.mCurrentCell.mBoardPosition, piece.mColor); ;
+                    }
+                }
+            }
+        }
+       
+        pieceDifference = (blackScore + (blackWeight / 100)) - (whiteScore + (whiteWeight / 100));
+        return Mathf.RoundToInt(pieceDifference * 100);
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// <summary>
     private int minimax(Board board, int depth, bool isMaximizing, int alpha, int beta)
     {
         if (depth <= 0)
         {
+            //if (difficulty > 1)
+            //{
+            //    res = evaluate2(board);
+            //}
+            //else evaluate(board);
             int res = evaluate(board);
-            Debug.Log(res);
-            Debug.Log(board.display());
+            if(res != 0)
+                Debug.Log(res + "\n" + board.display());
             return res;
         }
 
@@ -234,7 +276,7 @@ public class PieceManager : MonoBehaviour
                                     BasePiece killedPiece2 = board.mAllCells[pos2.x, pos2.y].mCurrentPiece;
 
                                     board.DoFakeMove(startPos2, pos2, piece2);
-                                    Debug.Log(board.display());
+                                    //Debug.Log(board.display());
 
                                     int score = minimax(board, depth - 1, false, int.MinValue, int.MaxValue);
                                     
@@ -285,7 +327,7 @@ public class PieceManager : MonoBehaviour
                                     BasePiece killedPiece3 = board.mAllCells[pos3.x, pos3.y].mCurrentPiece;
 
                                     board.DoFakeMove(startPos3, pos3, piece3);
-                                    Debug.Log(board.display());
+                                    //Debug.Log(board.display());
 
                                     int score = minimax(board, depth-1, true, int.MinValue, int.MaxValue);
 

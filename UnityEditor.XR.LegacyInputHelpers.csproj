@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{ED0793AE-F7BA-A338-6526-B3F3312BD1AC}</ProjectGuid>
+    <ProjectGuid>{13FF4C2E-7616-F07C-B7CD-7B5A561A64B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>UnityEditor.XR.LegacyInputHelpers</AssemblyName>
@@ -266,16 +266,16 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>D:/Unity/Project/Chess-AI-Minimax-with-Alpha-Beta-Pruning/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>D:/Unity/Project/Chess-Minimax/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>D:/Unity/Project/Chess-AI-Minimax-with-Alpha-Beta-Pruning/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>D:/Unity/Project/Chess-Minimax/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>D:/Unity/Project/Chess-AI-Minimax-with-Alpha-Beta-Pruning/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>D:/Unity/Project/Chess-Minimax/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>D:/Unity/Project/Chess-AI-Minimax-with-Alpha-Beta-Pruning/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>D:/Unity/Project/Chess-Minimax/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/Unity/2019.4.16f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -634,27 +634,27 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityEngine.XR.LegacyInputHelpers.csproj">
-      <Project>{16F076AF-D7C2-BFDC-B98E-F98EF8A9FB89}</Project>
+      <Project>{0E5CD1F8-1DDA-8D77-8014-12261B0BFBDE}</Project>
       <Name>UnityEngine.XR.LegacyInputHelpers</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.SpatialTracking.csproj">
-      <Project>{8513D66C-2AA0-CD28-2DF1-426770D1A5BA}</Project>
+      <Project>{6C0B6064-8CB0-6EDE-CA30-EDBFA20727CB}</Project>
       <Name>UnityEngine.SpatialTracking</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{F34C8826-D1AD-5B01-57E6-1D79B19E17E3}</Project>
+      <Project>{29E89DA5-9D69-215A-2E54-0D1F7601CDE3}</Project>
       <Name>UnityEditor.UI</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{EF111AF8-5FCC-935F-96EB-00F2A3003C0C}</Project>
+      <Project>{66D3C8B2-2C3B-7240-34D0-EF4807730D0B}</Project>
       <Name>UnityEngine.UI</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.TestRunner.csproj">
-      <Project>{095FAEE2-BCF5-9137-E71C-CBB5A9FAF13F}</Project>
+      <Project>{62B68DEA-74B0-5B6E-E9CD-A324C5AB1FBD}</Project>
       <Name>UnityEditor.TestRunner</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEngine.TestRunner.csproj">
-      <Project>{6A156FF9-B371-9738-CBCA-EF1F57E8AD6B}</Project>
+      <Project>{3DBDCA7E-4918-4F80-C2E3-EE680844ECD9}</Project>
       <Name>UnityEngine.TestRunner</Name>
     </ProjectReference>
   </ItemGroup>

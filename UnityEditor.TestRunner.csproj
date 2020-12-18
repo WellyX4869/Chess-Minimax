@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{095FAEE2-BCF5-9137-E71C-CBB5A9FAF13F}</ProjectGuid>
+    <ProjectGuid>{62B68DEA-74B0-5B6E-E9CD-A324C5AB1FBD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>UnityEditor.TestRunner</AssemblyName>
@@ -419,19 +419,19 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>D:/Unity/Project/Chess-AI-Minimax-with-Alpha-Beta-Pruning/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>D:/Unity/Project/Chess-Minimax/Library/PackageCache/com.unity.ext.nunit@1.0.5/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
-      <HintPath>D:/Unity/Project/Chess-AI-Minimax-with-Alpha-Beta-Pruning/Library/PackageCache/nuget.mono-cecil@0.1.6-preview/Mono.Cecil.dll</HintPath>
+      <HintPath>D:/Unity/Project/Chess-Minimax/Library/PackageCache/nuget.mono-cecil@0.1.6-preview/Mono.Cecil.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>D:/Unity/Project/Chess-AI-Minimax-with-Alpha-Beta-Pruning/Library/PackageCache/nuget.mono-cecil@0.1.6-preview/Mono.Cecil.Pdb.dll</HintPath>
+      <HintPath>D:/Unity/Project/Chess-Minimax/Library/PackageCache/nuget.mono-cecil@0.1.6-preview/Mono.Cecil.Pdb.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>D:/Unity/Project/Chess-AI-Minimax-with-Alpha-Beta-Pruning/Library/PackageCache/nuget.mono-cecil@0.1.6-preview/Mono.Cecil.Mdb.dll</HintPath>
+      <HintPath>D:/Unity/Project/Chess-Minimax/Library/PackageCache/nuget.mono-cecil@0.1.6-preview/Mono.Cecil.Mdb.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>D:/Unity/Project/Chess-AI-Minimax-with-Alpha-Beta-Pruning/Library/PackageCache/nuget.mono-cecil@0.1.6-preview/Mono.Cecil.Rocks.dll</HintPath>
+      <HintPath>D:/Unity/Project/Chess-Minimax/Library/PackageCache/nuget.mono-cecil@0.1.6-preview/Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/Unity/2019.4.16f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -790,7 +790,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityEngine.TestRunner.csproj">
-      <Project>{6A156FF9-B371-9738-CBCA-EF1F57E8AD6B}</Project>
+      <Project>{3DBDCA7E-4918-4F80-C2E3-EE680844ECD9}</Project>
       <Name>UnityEngine.TestRunner</Name>
     </ProjectReference>
   </ItemGroup>

@@ -63,7 +63,9 @@ public class Board : MonoBehaviour
 
     public void DoFakeMove(Vector2Int startPos, Vector2Int endPos, BasePiece piece)
     {
+        //mAllCells[endPos.x, endPos.y].mCurrentPiece.mCurrentCell = null;
         piece.mCurrentCell = mAllCells[endPos.x, endPos.y];
+        
         mAllCells[endPos.x, endPos.y].mCurrentPiece = piece;
         mAllCells[startPos.x, startPos.y].mCurrentPiece = null;
     }
@@ -120,10 +122,12 @@ public class Board : MonoBehaviour
                 Cell targetCell = mAllCells[j,i];
                 if(targetCell.mCurrentPiece == null)
                 {
-                    log += "0";
+                    log += "00";
                 }
                 else
                 {
+                    if (targetCell.mCurrentPiece.mColor == Color.white) log += "P";
+                    else log += "B";
                     log += targetCell.mCurrentPiece.role;
                 }
             }
