@@ -149,7 +149,7 @@ public class PieceManager : MonoBehaviour
                                 board.DoFakeMove(startPos, pos, piece);
                                 //Debug.Log(board.display());
 
-                                int score = minimax(board, 3, false, int.MinValue, int.MaxValue);
+                                int score = minimax(board, difficulty, false, int.MinValue, int.MaxValue);
                                 board.UndoFakeMove(startPos, pos, piece, killedPiece);
 
                                 if (score > bestScore)
@@ -241,8 +241,8 @@ public class PieceManager : MonoBehaviour
             //}
             //else evaluate(board);
             int res = evaluate(board);
-            if(res != 0)
-                Debug.Log(res + "\n" + board.display());
+            //if(res != 0)
+            //Debug.Log(res + "\n" + board.display());
             return res;
         }
 
@@ -269,7 +269,7 @@ public class PieceManager : MonoBehaviour
                                     int x1 = piece2.mHighlightedCells[i].mBoardPosition.x; int y1 = piece2.mHighlightedCells[i].mBoardPosition.y;
                                     targetCells.Add(board.mAllCells[x1, y1]);
                                 }
-                               
+
                                 for (int i = 0; i < targetCells.Count; i++)
                                 {
                                     Vector2Int pos2 = new Vector2Int(targetCells[i].mBoardPosition.x, targetCells[i].mBoardPosition.y);
@@ -278,13 +278,13 @@ public class PieceManager : MonoBehaviour
                                     board.DoFakeMove(startPos2, pos2, piece2);
                                     //Debug.Log(board.display());
 
-                                    int score = minimax(board, depth - 1, false, int.MinValue, int.MaxValue);
-                                    
+                                    int score = minimax(board, depth - 1, false, alpha, beta);
+
                                     board.UndoFakeMove(startPos2, pos2, piece2, killedPiece2);
                                     bestScore = Math.Max(score, bestScore);
                                     alpha = Math.Max(alpha, bestScore);
 
-                                    if (beta <= alpha)
+                                    if (beta <= alpha && (piece2.role == "P" || difficulty < 3))
                                     {
                                         break;
                                     }
@@ -321,6 +321,7 @@ public class PieceManager : MonoBehaviour
                                     targetCells.Add(board.mAllCells[x1, y1]);
                                 }
 
+                                //if (depth == 3 && piece3.role == "Q") Debug.Log(target);
                                 for (int i = 0; i < targetCells.Count; i++)
                                 {
                                     Vector2Int pos3 = new Vector2Int(targetCells[i].mBoardPosition.x, targetCells[i].mBoardPosition.y);
@@ -329,12 +330,13 @@ public class PieceManager : MonoBehaviour
                                     board.DoFakeMove(startPos3, pos3, piece3);
                                     //Debug.Log(board.display());
 
-                                    int score = minimax(board, depth-1, true, int.MinValue, int.MaxValue);
+                                    int score = minimax(board, depth-1, true, alpha, beta);
 
                                     board.UndoFakeMove(startPos3, pos3, piece3, killedPiece3);
+                                   
                                     bestScore = Math.Min(score, bestScore);
                                     beta = Math.Min(alpha, bestScore);
-                                    if (beta <= alpha)
+                                    if (beta <= alpha && piece3.role == "P")
                                     {
                                         break;
                                     }
