@@ -125,7 +125,6 @@ public class Board : MonoBehaviour
                 }
                 else
                 { 
-                //{
                 //    if (targetCell.mCurrentPiece.mColor == Color.white) log += "P";
                 //    else log += "B";
                     log += targetCell.mCurrentPiece.role;

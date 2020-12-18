@@ -240,7 +240,7 @@ public class PieceManager : MonoBehaviour
             //    res = evaluate2(board);
             //}
             //else evaluate(board);
-            int res = evaluate(board);
+            int res = evaluate2(board);
             //if(res != 0)
             //Debug.Log(res + "\n" + board.display());
             return res;
@@ -421,11 +421,12 @@ public class PieceManager : MonoBehaviour
 
         mPromotedPieces.Clear();
 
-        foreach (BasePiece piece in mWhitePieces)
-            piece.Reset();
+        //foreach (BasePiece piece in mWhitePieces)
+        //    piece.Reset();
 
-        foreach (BasePiece piece in mBlackPieces)
-            piece.Reset();
+        //foreach (BasePiece piece in mBlackPieces)
+        //    piece.Reset();
+        Application.LoadLevel(0);
     }
 
     public void PromotePiece(Pawn pawn, Cell cell, Color teamColor, Color spriteColor)
