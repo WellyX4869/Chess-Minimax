@@ -328,7 +328,7 @@ public class PieceManager : MonoBehaviour
                                    
                                     bestScore = Math.Min(score, bestScore);
                                     beta = Math.Min(alpha, bestScore);
-                                    if (beta <= alpha && (piece3.role == "P" || difficulty < 3))
+                                    if (beta <= alpha && (piece3.role == "P" || difficulty < 2))
                                     {
                                         break;
                                     }
@@ -377,10 +377,8 @@ public class PieceManager : MonoBehaviour
             }
             else
             {
-                GameOverText.text = "Black Wins";
+                GameOverText.text = "White Wins";
             }
-            
-
 
             // Reset pieces
             //ResetPieces();
