@@ -3,14 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PieceManager : MonoBehaviour
 {
     [HideInInspector]
     public bool mIsKingAlive = true;
+   
 
     public Board mBoard = null;
     public GameObject mPiecePrefab;
+    public GameObject GameOverScreen;
+    public Text GameOverText;
 
     [Header("DIFFICULTY")]
     private int difficulty = GameSettings.difficulty;
@@ -50,6 +54,8 @@ public class PieceManager : MonoBehaviour
 
     public void Setup(Board board)
     {
+        //gameoverscreen
+        GameOverScreen.SetActive(false);
         // Create white pieces
         //mWhitePieces = CreatePieces(Color.white, new Color32(80, 124, 159, 255)); //white
         mWhitePieces = CreatePieces(Color.white, new Color32(248, 248, 248, 255)); //white
@@ -364,14 +370,26 @@ public class PieceManager : MonoBehaviour
     {
         if (!mIsKingAlive)
         {
+            GameOverScreen.SetActive(true);
+            if (color == Color.black)
+            {
+                GameOverText.text = "Black Wins";
+            }
+            else
+            {
+                GameOverText.text = "Black Wins";
+            }
+            
+
+
             // Reset pieces
-            ResetPieces();
+            //ResetPieces();
 
             // King has risen from the dead
-            mIsKingAlive = true;
+            //mIsKingAlive = true;
 
             // Change color to black, so white can go first again
-            color = Color.black;
+            //color = Color.black;
         }
 
         bool isBlackTurn = color == Color.white ? true : false;
