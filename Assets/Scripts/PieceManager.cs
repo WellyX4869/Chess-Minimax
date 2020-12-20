@@ -370,6 +370,8 @@ public class PieceManager : MonoBehaviour
     {
         if (!mIsKingAlive)
         {
+            SetInteractive(mWhitePieces, false);
+            SetInteractive(mBlackPieces, false);
             GameOverScreen.SetActive(true);
             if (color == Color.black)
             {
@@ -389,30 +391,33 @@ public class PieceManager : MonoBehaviour
             // Change color to black, so white can go first again
             //color = Color.black;
         }
-
-        bool isBlackTurn = color == Color.white ? true : false;
-
-        // Set team interactivity
-        SetInteractive(mWhitePieces, !isBlackTurn);
-
-        // Disable this so player can't move pieces
-        SetInteractive(mBlackPieces, isBlackTurn);
-
-        // Set promoted interactivity
-        foreach (BasePiece piece in mPromotedPieces)
+        else
         {
-            bool isBlackPiece = piece.mColor != Color.white ? true : false;
-            bool isPartOfTeam = isBlackPiece == true ? isBlackTurn : !isBlackTurn;
 
-            piece.enabled = isPartOfTeam;
-        }
+            bool isBlackTurn = color == Color.white ? true : false;
 
-        ShowLastMove();
+            // Set team interactivity
+            SetInteractive(mWhitePieces, !isBlackTurn);
 
-        // ADDED: Move random piece
-        if (isBlackTurn)
-        {
-            StartCoroutine(bestMove());
+            // Disable this so player can't move pieces
+            SetInteractive(mBlackPieces, isBlackTurn);
+
+            // Set promoted interactivity
+            foreach (BasePiece piece in mPromotedPieces)
+            {
+                bool isBlackPiece = piece.mColor != Color.white ? true : false;
+                bool isPartOfTeam = isBlackPiece == true ? isBlackTurn : !isBlackTurn;
+
+                piece.enabled = isPartOfTeam;
+            }
+
+            ShowLastMove();
+
+            // ADDED: Move random piece
+            if (isBlackTurn)
+            {
+                StartCoroutine(bestMove());
+            }
         }
     }
 

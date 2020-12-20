@@ -156,12 +156,18 @@ public abstract class BasePiece : EventTrigger
    
     public void ShowCells()
     {
+        foreach(Cell cell in mPieceManager.mBoard.lastMove)
+            cell.mLastOutlineImage.enabled = false;
+
         foreach (Cell cell in mHighlightedCells)
             cell.mOutlineImage.enabled = true;
     }
 
     protected void ClearCells()
     {
+        foreach (Cell cell in mPieceManager.mBoard.lastMove)
+            cell.mLastOutlineImage.enabled = true;
+
         foreach (Cell cell in mHighlightedCells)
             cell.mOutlineImage.enabled = false;
 
